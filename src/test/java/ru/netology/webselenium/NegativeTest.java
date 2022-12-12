@@ -42,42 +42,43 @@ public class NegativeTest {
     public void incorrectName() {
         driver.findElement(By.cssSelector("//span[@data-test-id=name] input")).sendKeys("Alena");
         driver.findElement(By.cssSelector("//span[@data-test-id=phone] input")).sendKeys("+79991231212");
-        driver.findElement(By.cssSelector("//label[@data-test-id=agreement] input")).click();
+        driver.findElement(By.cssSelector("//label[@data-test-id=agreement]")).click();
         driver.findElement(By.cssSelector("//button[contains(@class, 'button')]")).click();
-        assertEquals("Вы указали неверно Имя и Фамилию. Можно использовать только русские буквы, пробел и дефис",
-                driver.findElement(By.xpath("//span[@data-test-id='name'][contains(@class, 'input_invaild')]//span[@class='input__sub'0]"))
+        assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.",
+                driver.findElement(By.xpath("//span[@data-test-id='name'][contains(@class, 'input_invalid')]//span[@class='input__sub'0]"))
                         .getText().trim());
     }
 
     @Test
     public void emptyName() {
         driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79991231212");
-        driver.findElement(By.cssSelector("[data-test-id=agreement] input")).click();
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.cssSelector("button.button")).click();
-        assertEquals("Поле ФИО обязательно для заполнения",
+        assertEquals("Поле обязательно для заполнения",
                 driver.findElement(By.cssSelector("[data-test-id='name'].input_invalid .input__sub")).getText().trim());
     }
 
     @Test
-    public void incorrectPhone () {
+    public void incorrectPhone() {
         driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Петров-Николаевич Николай");
         driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("qwe-asd_zxc");
-        driver.findElement(By.cssSelector("[data-test-id=agreement] input")).click();
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.cssSelector("button.button")).click();
-        assertEquals("Телефон указан неверно. Нельзя использовать буквы.",
-                driver.findElement(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).getText().trim());
-    }
-    @Test
-    public void emptyPhone () {
-        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Петров-Николаевич Николай");
-        driver.findElement(By.cssSelector("[data-test-id=agreement] input")).click();
-        driver.findElement(By.cssSelector("button.button")).click();
-        assertEquals("Поле телефон обязательно для заполнения",
+        assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.",
                 driver.findElement(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).getText().trim());
     }
 
     @Test
-    public void uncheckCheckbox () {
+    public void emptyPhone() {
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Петров-Николаевич Николай");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
+        driver.findElement(By.cssSelector("button.button")).click();
+        assertEquals("Поле обязательно для заполнения",
+                driver.findElement(By.cssSelector("[data-test-id=phone].input_invalid .input__sub")).getText().trim());
+    }
+
+    @Test
+    public void uncheckCheckbox() {
         driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Петров-Николаевич Николай");
         driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+79991231212");
         driver.findElement(By.cssSelector("button.button")).click();
